@@ -13,7 +13,7 @@ function LoginForm() {
     const handleLoginSubmit = async (e) => {
         e.preventDefault();
         await Login({ email: email, password: password }).then((user) => {
-            navegacion('/inicio');
+            navegacion('/');
             // eslint-disable-next-line
             window.location.href = window.location.href;
             
