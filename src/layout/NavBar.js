@@ -8,10 +8,22 @@ import { Logout } from '../services/login';
 import { Dropdown } from 'react-bootstrap';
 import { Space, Spin } from 'antd';
 
-function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, footerIcon, services,products }) {
+function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, footerIcon, services, products }) {
     //const location = useLocation()
-    const styleLabel = { color: `${theme?.header_title_color !== "" ? theme?.header_title_color : 'black'}`,
-    background: `none`, border: `none` }
+    const styleLabel = { color: `${theme?.header_title_color !== "" ? theme?.header_title_color : 'black'}`, background: `none`, border: `none` }
+    const styleNavbar = (
+        (theme?.header_color2 === null || theme?.header_color2 === '') ?
+            {
+                position: "initial",
+                backgroundColor: `${theme?.header_color}`,
+            }
+            :
+            {
+                position: "initial",
+                backgroundImage: `linear-gradient(50deg,${theme?.header_color},${theme?.header_color2})`
+            }
+
+    )
     return (
         <div>
             {nosotros.length === 0 ?
@@ -23,10 +35,7 @@ function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, f
                 <>
                     <Navbar
                         expand="lg"
-                        style={{
-                            backgroundColor: `${theme?.header_color}`,
-                            position: "initial"
-                        }}
+                        style={styleNavbar}
                         fixed="bottom"
                     >
                         <Container >
@@ -50,7 +59,7 @@ function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, f
                                     {products.length !== 0 ? <Nav.Link as={Link} to='/productos' style={styleLabel}>Productos</Nav.Link> : null}
                                     {services.length !== 0 ? <Nav.Link as={Link} to='/servicios' style={styleLabel}>Servicios</Nav.Link> : null}
                                     <Dropdown hidden={usuario?.nivel === '1' ? false : true}>
-                                        <Dropdown.Toggle  style={styleLabel} id="dropdown-basic">
+                                        <Dropdown.Toggle style={styleLabel} id="dropdown-basic">
                                             Administración
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>

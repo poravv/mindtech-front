@@ -62,6 +62,16 @@ const ListTheme = ({ token }) => {
             ...BuscadorTabla('header_color'),
         },
         {
+            title: 'Color de navbar 2',
+            dataIndex: 'header_color2',
+            //width: '22%',
+            editable: true,
+            color:true,
+            sortDirections: ['descend', 'ascend'],
+            sorter: (a, b) => a.header_color2.localeCompare(b.header_color2),
+            ...BuscadorTabla('header_color2'),
+        },
+        {
             title: 'Color de texto navbar',
             dataIndex: 'header_title_color',
             //width: '22%',
@@ -272,6 +282,7 @@ const ListTheme = ({ token }) => {
                 });
 
                 newData[index].header_color=hexString(newData[index].header_color);
+                newData[index].header_color2=hexString(newData[index].header_color2);
                 newData[index].header_title_color=hexString(newData[index].header_title_color);
                 newData[index].content_background_color=hexString(newData[index].content_background_color);
                 newData[index].footer_background_color=hexString(newData[index].footer_background_color);

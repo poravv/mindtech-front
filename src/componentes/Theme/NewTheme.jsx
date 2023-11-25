@@ -10,6 +10,7 @@ import { Titulos } from '../Utils/Titulos';
 function NewTheme({ token }) {
     const [form] = Form.useForm();
     const [header_color, setheader_color] = useState()
+    const [header_color2, setheader_color2] = useState()
     const [header_title_color, setheader_title_color] = useState()
     const [content_background_color, setcontent_background_color] = useState()
     const [footer_background_color, setfooter_background_color] = useState()
@@ -82,7 +83,8 @@ function NewTheme({ token }) {
                 onFinish={create}
                 autoComplete="off"
             >
-                <Form.Item label='Color de navbar' name="header_color" rules={[{ required: true, message: 'Cargue Color de navbar', },]}><ColorPicker value={header_color} onChange={setheader_color} showText format={formatHex} onFormatChange={setFormatHex} /></Form.Item>
+                <Form.Item label='Color de navbar 1' name="header_color" rules={[{ required: true, message: 'Cargue Color de navbar', },]}><ColorPicker value={header_color} onChange={setheader_color} showText format={formatHex} onFormatChange={setFormatHex} /></Form.Item>
+                <Form.Item label='Color de navbar 2' name="header_color2" ><ColorPicker value={header_color2} onChange={setheader_color2} showText format={formatHex} onFormatChange={setFormatHex} /></Form.Item>
                 <Form.Item label='Color de texto navbar' name="header_title_color" rules={[{ required: true, message: 'Cargue Color de texto navbar', },]}><ColorPicker placeholder='Color de texto navbar' onChange={setheader_title_color} showText format={formatHex} onFormatChange={setFormatHex} /></Form.Item>
                 <Form.Item label='Fondo de paginas' name="content_background_color" rules={[{ required: true, message: 'Cargue Fondo de paginas', },]}><ColorPicker placeholder='Fondo de paginas' onChange={setcontent_background_color} showText format={formatHex} onFormatChange={setFormatHex} /></Form.Item>
                 <Form.Item label='Fondo de pie de pagina' name="footer_background_color" rules={[{ required: true, message: 'Cargue Fondo de pie de pagina', },]}><ColorPicker placeholder='Fondo de pie de pagina' onChange={setfooter_background_color} showText format={formatHex} onFormatChange={setFormatHex} /></Form.Item>
