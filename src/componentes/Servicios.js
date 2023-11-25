@@ -15,7 +15,7 @@ const Servicios = ({ services, theme, serviceHeader }) => {
             {serviceHeader?.subtitle}
           </p>
         </div>
-        <div style={{ display:`flex` }}>
+        <div style={{  width: `100%`, marginTop: `4rem`, marginBottom: `4rem`,display:`flex` }}>
           <div className="row" style={{ cursor: "pointer",textAlign:`center` }}>
             {services?.map((data, index) => (
               <div key={index + 1} className="col" style={{ justifyContent: `center`, alignItems: `center`,marginTop:`2rem` }}>

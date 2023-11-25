@@ -27,10 +27,10 @@ const Destacados = ({ theme, destacados, destacadoHeader }) => {
             {destacadoHeader?.subtitle}
           </h1>
         </div>
-        <div style={{ width: `100%`, marginTop: `4rem`, marginBottom: `4rem` }}>
-          <div className="row" style={{ cursor: "pointer", display: `flex` }}>
+        <div style={{ width: `100%`, marginTop: `4rem`, marginBottom: `4rem`,display:`flex` }}>
+          <div className="row" style={{ cursor: "pointer",textAlign:`center` }}>
             {destacados?.map((data, index) => (
-              <div key={index + 1} className="col" style={{ justifyContent: `center`, alignItems: `center` }}>
+              <div key={index + 1} className="col" style={{ justifyContent: `center`, alignItems: `center`,marginTop:`2rem` }}>
                 <a rel="noreferrer" href={`${data?.href}`} target="_blank" style={{ textDecoration: `none` }}>
                   <img style={{ height: `170px`,borderRadius:`10px` }} src={data?.html_image} alt="buyIcon" />
                   <h1 style={{ fontSize: "1em",maxWidth:`15em`, color: `${theme?.content_title_color}`, }}>
