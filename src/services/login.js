@@ -13,7 +13,7 @@ export const Login = async (credentials) => {
 export const Logout = () => {
     window.localStorage.removeItem('loginAppMindTech');
     // eslint-disable-next-line
-    //window.location.href = window.location.href;
+    //window.location.href = '/';
     window.location.href = '/';
 }
  
