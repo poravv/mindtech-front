@@ -1,4 +1,4 @@
-import { Form, Input, InputNumber, Table, Select, Spin,ColorPicker } from 'antd';
+import { Form, Input, InputNumber, Table, Select, Spin, ColorPicker } from 'antd';
 import { getIcon } from '../../../services/icon';
 import { useEffect, useState } from 'react';
 
@@ -23,7 +23,7 @@ function TableModel({ token, form, data, mergedColumns, keyExtraido, varx }) {
 
   const EditableCell = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps }) => {
 
-    const inputNode = inputType === 'number' ? <InputNumber /> : inputType==='ColorPicker'? <ColorPicker showText format={formatHex} onFormatChange={setFormatHex} /> : <Input />;
+    const inputNode = inputType === 'number' ? <InputNumber /> : inputType === 'ColorPicker' ? <ColorPicker showText format={formatHex} onFormatChange={setFormatHex} /> : <Input />;
     switch (dataIndex) {
       case 'state':
         return (
@@ -39,6 +39,21 @@ function TableModel({ token, form, data, mergedColumns, keyExtraido, varx }) {
               ) : (children)
             }
           </td>);
+      case 'tipo':
+        return (
+          <td {...restProps}>
+            {
+              editing ? (
+                <Form.Item name={dataIndex} style={{ margin: 0, }} rules={[{ required: true, message: `Por favor complete ${title}!`, },]} >
+                  <Select allowClear >
+                    <Option value="serv">Servicio</Option>
+                    <Option value="prod">Producto</Option>
+                  </Select>
+                </Form.Item>
+              ) : (children)
+            }
+          </td>);
+
       case 'destacado':
         return (
           <td {...restProps}>

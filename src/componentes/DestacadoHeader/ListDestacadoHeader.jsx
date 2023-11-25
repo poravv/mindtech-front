@@ -13,7 +13,6 @@ const ListDestacadoHeader = ({ token }) => {
     const [editingKey, setEditingKey] = useState('');
     const navigate = useNavigate();
 
-
     useEffect(() => {
         getLstDestacadoHeader();
         // eslint-disable-next-line
@@ -68,6 +67,12 @@ const ListDestacadoHeader = ({ token }) => {
             sortDirections: ['descend', 'ascend'],
             sorter: (a, b) => a.subtitle.localeCompare(b.subtitle),
             ...BuscadorTabla('subtitle'),
+        },
+        {
+            title: 'Tipo',
+            dataIndex: 'tipo',
+            //width: '22%',
+            editable: true,
         },
         {
             title: 'Estado',

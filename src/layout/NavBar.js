@@ -8,7 +8,7 @@ import { Logout } from '../services/login';
 import { Dropdown } from 'react-bootstrap';
 import { Space, Spin } from 'antd';
 
-function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, footerIcon, services }) {
+function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, footerIcon, services,products }) {
     //const location = useLocation()
     const styleLabel = { color: `${theme?.header_title_color !== "" ? theme?.header_title_color : 'black'}`,
     background: `none`, border: `none` }
@@ -47,6 +47,7 @@ function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, f
                                     <Nav.Link as={Link} to='/inicio' style={styleLabel} >Home</Nav.Link>
                                     {nosotros.length !== 0 ? <Nav.Link as={Link} to='/nosotros' style={styleLabel}>Nosotros</Nav.Link> : null}
                                     {client.length !== 0 ? <Nav.Link as={Link} to='/clientes' style={styleLabel}>Clientes</Nav.Link> : null}
+                                    {products.length !== 0 ? <Nav.Link as={Link} to='/productos' style={styleLabel}>Productos</Nav.Link> : null}
                                     {services.length !== 0 ? <Nav.Link as={Link} to='/servicios' style={styleLabel}>Servicios</Nav.Link> : null}
                                     <Dropdown hidden={usuario?.nivel === '1' ? false : true}>
                                         <Dropdown.Toggle  style={styleLabel} id="dropdown-basic">
@@ -55,6 +56,7 @@ function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, f
                                         <Dropdown.Menu>
                                             <Dropdown.Item as={Link} to='/welcome' >Bienvenida</Dropdown.Item>
                                             <Dropdown.Item as={Link} to='/clienteheader' >Cliente Header</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to='/productheader' >Product Header</Dropdown.Item>
                                             <Dropdown.Item as={Link} to='/serviceheader' >Service Header</Dropdown.Item>
                                             <Dropdown.Item as={Link} to='/footerheader' >Footer Header</Dropdown.Item>
                                             <Dropdown.Item as={Link} to='/destacadoheader' >Destacados Header</Dropdown.Item>

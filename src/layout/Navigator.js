@@ -16,7 +16,7 @@ import { getService } from '../services/service';
 import { getFooterHeaderOne } from '../services/footer_header';
 import { getFooterLabel } from '../services/footer_label';
 import { getFooterIcon } from '../services/footer_icon';
-import { getDestacadoHeaderOne } from '../services/destacado_header';
+import { getDestacadoHeaderServ,getDestacadoHeaderProd } from '../services/destacado_header';
 import './Style.css';
 import LoginForm from './LoginForm';
 import NewTheme from '../componentes/Theme/NewTheme';
@@ -43,6 +43,13 @@ import NewAbout from '../componentes/About/NewAbout';
 import ListAbout from '../componentes/About/ListAbout';
 import ListFooterIcon from '../componentes/FooterIcon/ListFooterIcon';
 import NewFooterIcon from '../componentes/FooterIcon/NewFooterIcon';
+import ListProduct from '../componentes/Product/ListProduct';
+import NewProduct from '../componentes/Product/NewProduct';
+import NewProductHeader from '../componentes/ProductHeader/NewProductHeader';
+import ListProductHeader from '../componentes/ProductHeader/ListProductHeader';
+import { getProduct } from '../services/product';
+import Productos from '../componentes/Productos';
+import { getProductHeaderOne } from '../services/product_header';
 
 function Navigator() {
     const loggedUser = window.localStorage.getItem('loginAppMindTech');
@@ -52,13 +59,17 @@ function Navigator() {
     const [theme, setTheme] = useState([]);
     const [client, setClient] = useState([]);
     const [services, setServices] = useState([]);
+    const [products, setProducts] = useState([]);
     const [destacados, setDestacados] = useState([]);
+    const [prodDestacados, setProductsDestacados] = useState([]);
     const [clientHeader, setClientHeader] = useState([]);
     const [serviceHeader, setServiceHeader] = useState([]);
+    const [productHeader, setProductHeader] = useState([]);
     const [footerHeader, setFooterHeader] = useState([]);
     const [footerLabel, setFooterLabel] = useState([]);
     const [footerIcon, setFooterIcon] = useState([]);
     const [destacadoHeader, setDestacadoHeader] = useState([]);
+    const [prodDestacadosHeader, setProductsDestacadosHeader] = useState([]);
 
     useEffect(() => {
         getWelcomeOne().then((data) => { setWelcome(data?.body) });
@@ -77,19 +88,33 @@ function Navigator() {
             setServices(service);
             setDestacados(destacados);
         });
+        getProduct().then((data) => {
+            let producto = [];
+            let destacados = []
+            data?.body.map((d) => {
+                if (d.destacado === 'Si') { destacados.push(d) }
+                producto.push(d);
+                return true;
+            });
+            setProducts(producto);
+            setProductsDestacados(destacados);
+            console.log(destacados)
+        });
         getServiceHeaderOne().then((data) => { setServiceHeader(data?.body) });
+        getProductHeaderOne().then((data) => { setProductHeader(data?.body) });
         getFooterHeaderOne().then((data) => { setFooterHeader(data?.body) });
         getFooterLabel().then((data) => { setFooterLabel(data?.body) });
         getFooterIcon().then((data) => { setFooterIcon(data?.body) });
-        getDestacadoHeaderOne().then((data) => { setDestacadoHeader(data?.body) });
+        getDestacadoHeaderServ().then((data) => { setDestacadoHeader(data?.body) });
+        getDestacadoHeaderProd().then((data) => { setProductsDestacadosHeader(data?.body) });
         // eslint-disable-next-line
     }, []);
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<NavBar nosotros={nosotros} client={client} services={services} usuario={userJson?.body??null} theme={theme} footerHeader={footerHeader} footerLabel={footerLabel} footerIcon={footerIcon} />} >
-                    <Route index element={<Home welcome={welcome} theme={theme} destacados={destacados} destacadoHeader={destacadoHeader}/>} />
-                    <Route path='/inicio' element={<Home welcome={welcome} theme={theme} destacados={destacados} destacadoHeader={destacadoHeader} />} />
+                <Route path='/' element={<NavBar products={products} nosotros={nosotros} client={client} services={services} usuario={userJson?.body??null} theme={theme} footerHeader={footerHeader} footerLabel={footerLabel} footerIcon={footerIcon} />} >
+                    <Route index element={<Home welcome={welcome} theme={theme} prodDestacadosHeader={prodDestacadosHeader} prodDestacados={prodDestacados} destacados={destacados} destacadoHeader={destacadoHeader}/>} />
+                    <Route path='/inicio' element={<Home welcome={welcome} theme={theme} prodDestacadosHeader={prodDestacadosHeader} prodDestacados={prodDestacados}  destacados={destacados} destacadoHeader={destacadoHeader} />} />
                     <Route path='/nosotros' element={<Nosotros nosotros={nosotros} theme={theme} />} />
                     <Route path='/clientes' element={<Clientes theme={theme} client={client} clientHeader={clientHeader} />} />
                     <Route path='/servicios' element={<Servicios theme={theme} serviceHeader={serviceHeader} services={services} />} />
@@ -117,6 +142,12 @@ function Navigator() {
                     <Route path='/nuevoabout' element={<NewAbout token={userJson?.token} />} />
                     <Route path='/footericon' element={<ListFooterIcon token={userJson?.token} />} />
                     <Route path='/nuevofootericon' element={<NewFooterIcon token={userJson?.token} />} />
+                    
+                    <Route path='/productos' element={<Productos theme={theme} productHeader={productHeader} products={products} />} />
+                    <Route path='/product' element={<ListProduct token={userJson?.token} />} />
+                    <Route path='/nuevoproduct' element={<NewProduct token={userJson?.token} />} />
+                    <Route path='/productheader' element={<ListProductHeader token={userJson?.token} />} />
+                    <Route path='/nuevoproductheader' element={<NewProductHeader token={userJson?.token} />} />
                 </Route>
                 <Route path='/login' element={<LoginForm />} />
                 <Route path='*' element={<Error replace to='/error' />} />

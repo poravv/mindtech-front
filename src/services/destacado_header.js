@@ -12,8 +12,13 @@ export const getAllDestacadoHeader = async () => {
     return data;
 };
 
-export const getDestacadoHeaderOne = async () => {
-    const { data } = await axios.get(`${baseURL}/getone`)
+export const getDestacadoHeaderServ = async () => {
+    const { data } = await axios.get(`${baseURL}/getoneserv`)
+    return data;
+};
+
+export const getDestacadoHeaderProd = async () => {
+    const { data } = await axios.get(`${baseURL}/getoneprod`)
     return data;
 };
 

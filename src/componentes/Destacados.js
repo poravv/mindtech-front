@@ -33,7 +33,7 @@ const Destacados = ({ theme, destacados, destacadoHeader }) => {
               <div key={index + 1} className="col" style={{ justifyContent: `center`, alignItems: `center`,marginTop:`2rem` }}>
                 <a rel="noreferrer" href={`${data?.href}`} target="_blank" style={{ textDecoration: `none` }}>
                   <img style={{ height: `170px`,borderRadius:`10px` }} src={data?.html_image} alt="buyIcon" />
-                  <h1 style={{ fontSize: "1em",maxWidth:`15em`, color: `${theme?.content_title_color}`, }}>
+                  <h1 style={{ fontSize: "1em", color: `${theme?.content_title_color}`, }}>
                     {data?.title}
                   </h1>
                   <h1 style={{ fontWeight: "bold", fontSize: "14px", color: `${theme?.content_subtitle_color}` }}> Más detalles
