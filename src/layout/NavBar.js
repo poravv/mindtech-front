@@ -10,7 +10,8 @@ import { Space, Spin } from 'antd';
 
 function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, footerIcon, services }) {
     //const location = useLocation()
-    const styleLabel = { color: `${theme?.header_title_color !== "" ? theme?.header_title_color : 'black'}` }
+    const styleLabel = { color: `${theme?.header_title_color !== "" ? theme?.header_title_color : 'black'}`,
+    background: `none`, border: `none` }
     return (
         <div>
             {nosotros.length === 0 ?
@@ -48,7 +49,7 @@ function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, f
                                     {client.length !== 0 ? <Nav.Link as={Link} to='/clientes' style={styleLabel}>Clientes</Nav.Link> : null}
                                     {services.length !== 0 ? <Nav.Link as={Link} to='/servicios' style={styleLabel}>Servicios</Nav.Link> : null}
                                     <Dropdown hidden={usuario?.nivel === '1' ? false : true}>
-                                        <Dropdown.Toggle style={{ background: `none`, border: `none` }} id="dropdown-basic">
+                                        <Dropdown.Toggle  style={styleLabel} id="dropdown-basic">
                                             Administración
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
