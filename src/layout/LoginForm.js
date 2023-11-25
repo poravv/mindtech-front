@@ -15,7 +15,7 @@ function LoginForm() {
         await Login({ email: email, password: password }).then((user) => {
             navegacion('/');
             // eslint-disable-next-line
-            window.location.href = '/';
+            ;window.location.href = window.location.href;;
             
         }).catch((error) => {
             setEmail('');

@@ -42,7 +42,7 @@ const ListClient = ({ token }) => {
                 getLstClient();
                 message.success(res?.detmensaje).then(() => {
                     // eslint-disable-next-line
-                    window.location.href = '/';
+                    ;window.location.href = window.location.href;;
                 })
             }
         })
