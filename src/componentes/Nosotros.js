@@ -46,6 +46,7 @@ const Nosotros = ({ nosotros, theme }) => {
                 style={{height:`50%`,  }}
                 >
                     <img
+                    className="image"
                       src={data?.html_image}
                       alt="illustration"
                     /> 
