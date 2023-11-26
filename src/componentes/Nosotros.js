@@ -1,4 +1,3 @@
-import { Container } from "react-bootstrap";
 
 const Nosotros = ({ nosotros, theme }) => {
   console.log(theme)
@@ -16,43 +15,42 @@ const Nosotros = ({ nosotros, theme }) => {
       }} >
         {nosotros ?
           nosotros.map((data, index) => (
-            <div style={{ marginTop: `5px` }} key={index + 1}>
-              <Container className="row"
+            <div className="row"
+              style={{
+                backgroundColor: `${data?.about_background !== "" ? data?.about_background : "#000339"}`,
+                borderRadius: "15px",
+                marginTop: `5px`
+              }}>
+              <div className="col"
                 style={{
-                  backgroundColor: `${data?.about_background !== "" ? data?.about_background : "#000339"}`,
-                  borderRadius: "15px",
+                  display: `flex`,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: `2em`
                 }}>
-                <div className="col"
-                  style={{
-                    display: `flex`,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    margin: `2em`
-                  }}>
-                  <div className="col" >
-                    <p className="row" style={{ fontSize: "35px", color: "white", fontWeight: "700" }}>
-                      {data?.title}
-                    </p>
-                    <p className="row" style={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 0 }}>
-                      {data?.subtitle}
-                    </p>
+                <div className="col" >
+                  <p className="row" style={{ fontSize: "35px", color: "white", fontWeight: "700" }}>
+                    {data?.title}
+                  </p>
+                  <p className="row" style={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 0 }}>
+                    {data?.subtitle}
+                  </p>
 
-                    <p className="row" style={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 3 }}>
-                      {data?.description}
-                    </p>
-                  </div>
+                  <p className="row" style={{ fontSize: "16px", color: "#ccc", fontWeight: "500", my: 3 }}>
+                    {data?.description}
+                  </p>
                 </div>
-                {data?.html_image ?
-                  <div className="col"
-                  >
+              </div>
+              {data?.html_image ?
+                <div className="col contenedor"
+                style={{height:`50%`,  }}
+                >
                     <img
                       src={data?.html_image}
                       alt="illustration"
-                      style={{ width: `40em`, display: `flex` }}
-                    />
-                  </div>
-                  : null}
-              </Container>
+                    /> 
+                </div>
+                : null}
             </div>
           ))
 
