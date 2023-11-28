@@ -1,8 +1,25 @@
 
 import { Container } from "react-bootstrap";
+import { Buffer } from 'buffer';
 
 const Productos = ({ products, theme, productHeader }) => {
-  console.log(products)
+  const viewImage = (html_image) => {
+    if (html_image && typeof html_image !== "string") {
+      //console.log(html_image);
+      const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
+      if (asciiTraducido) {
+        return (
+          <img
+            alt="imagen"
+            //preview={false}
+            style={{ height:`170px`, borderRadius: `10px` }}
+            src={asciiTraducido}
+          />
+        );
+      }
+    }
+  }
+  //console.log(products)
   return (
     <div style={{ backgroundColor: "#F5FAFE", minHeight: `30rem` }}>
       <hr style={{ width: "5%", height: "5px", backgroundColor: "#000339", margin: "0 auto", }} />
@@ -20,7 +37,8 @@ const Productos = ({ products, theme, productHeader }) => {
             {products?.map((data, index) => (
               <div key={index + 1} className="col" style={{ justifyContent: `center`, alignItems: `center`,marginTop:`2rem` }}>
                 <a rel="noreferrer" href={`${data?.href}`} target="_blank" style={{ textDecoration: `none` }}>
-                  <img style={{ height: `170px`, borderRadius: `10px`}} src={data?.html_image} alt="buyIcon" />
+                  {/*<img style={{ height: `170px`, borderRadius: `10px`}} src={data?.html_image} alt="buyIcon" />*/}
+                  {viewImage(data?.html_image)}
                   <h1 style={{ fontSize: "1em", color: `${theme?.content_title_color}` }}>
                     {data?.title}
                   </h1>

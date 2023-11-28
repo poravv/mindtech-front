@@ -1,6 +1,26 @@
+import { Buffer } from 'buffer';
 
 const Nosotros = ({ nosotros, theme }) => {
-  console.log(theme)
+  //console.log(theme)
+  const viewImage = (html_image) => {
+    if (html_image && typeof html_image !== "string") {
+      //console.log(html_image);
+      const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
+      if (asciiTraducido) {
+        return (
+          <img
+            alt="imagen"
+            className="image"
+            //preview={false}
+            //style={{ height:`170px`, borderRadius: `10px` }}
+            src={asciiTraducido}
+          />
+          
+        );
+      }
+    }
+  }
+
   return (
     <div style={{ backgroundColor: `${theme?.content_background_color}`, }}>
       <hr style={{ width: "5%", height: "5px", backgroundColor: "#000339", margin: "0 auto", }} />
@@ -16,6 +36,7 @@ const Nosotros = ({ nosotros, theme }) => {
         {nosotros ?
           nosotros.map((data, index) => (
             <div className="row"
+            key={index}
               style={{
                 backgroundColor: `${data?.about_background !== "" ? data?.about_background : "#000339"}`,
                 borderRadius: "15px",
@@ -43,18 +64,13 @@ const Nosotros = ({ nosotros, theme }) => {
               </div>
               {data?.html_image ?
                 <div className="col contenedor"
-                style={{height:`50%`,  }}
+                  style={{ height: `50%`, }}
                 >
-                    <img
-                    className="image"
-                      src={data?.html_image}
-                      alt="illustration"
-                    /> 
+                  {viewImage(data?.html_image)}
                 </div>
                 : null}
             </div>
           ))
-
           : null}
 
       </div>

@@ -196,10 +196,10 @@ const ListClientHeader = ({ token }) => {
     return (
         <div style={{ display: `flex` }}>
             <Container>
-                <Titulos text={`CLIENT HEADER`} level={3}></Titulos>
+                <Titulos text={`TÍTULOS CLIENTE`} level={3}></Titulos>
                 <div style={{ marginBottom: `5px`, textAlign: `end` }}>
                     <Button type="default" onClick={() => navigate('/nuevoclienteheader')} > Nuevo</Button>
-                    <Button style={{ marginLeft: `10px` }} type="default" onClick={() => navigate('/client')}>List Clients</Button>
+                    <Button style={{ marginLeft: `10px` }} type="default" onClick={() => navigate('/client')}>Lista de Clientes</Button>
                 </div>
                 <TableModel mergedColumns={mergedColumns} data={data} form={form} keyExtraido={'idclient_header'} varx={700} />
             </Container>

@@ -32,7 +32,7 @@ const btnCancelar = (e) => {
 return (
     <div >
         <div style={{ marginBottom: `20px` }}>
-            <Titulos text={`NUEVO CLIENTE HEADER`} level={3}></Titulos>
+            <Titulos text={`NUEVO TÍTULO DE PIE`} level={3}></Titulos>
         </div>
         <Form
             name="basic"

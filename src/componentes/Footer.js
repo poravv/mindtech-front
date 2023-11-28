@@ -2,8 +2,23 @@ import { Container, Nav } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 
 const Footer = ({ theme, footerHeader, footerLabel,footerIcon }) => {
+  const styleFooter = (
+    (theme?.footer_background_color1 === null || theme?.footer_background_color2 === '') ?
+        {
+            position: "initial",
+            backgroundColor: `${theme?.footer_background_color1}`,
+            width: `100%`
+        }
+        :
+        {
+            position: "initial",
+            backgroundImage: `linear-gradient(50deg,${theme?.footer_background_color1},${theme?.footer_background_color2})`,
+            width: `100%`
+        }
+
+)
   return (
-    <div style={{ background: `${theme?.footer_background_color}`, width: `100%` }}>
+    <div style={styleFooter}>
       <Container>
         <div className='row' style={{ minHeight: `200px` }}>
           <hr />

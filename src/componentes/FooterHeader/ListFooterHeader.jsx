@@ -195,11 +195,11 @@ const ListFooterHeader = ({ token }) => {
     return (
         <div style={{ display: `flex` }}>
             <Container>
-                <Titulos text={`FOOTER HEADER`} level={3}></Titulos>
+                <Titulos text={`TÍTULOS PIE DE PÁGINA`} level={3}></Titulos>
                 <div style={{ marginBottom: `5px`, textAlign: `end` }}>
                     <Button type="default" onClick={() => navigate('/nuevofooterheader')} > Nuevo</Button>
-                    <Button style={{ marginLeft: `10px` }} type="default" onClick={() => navigate('/footerlabel')}> Footer col 1</Button>
-                    <Button style={{ marginLeft: `10px` }} type="default" onClick={() => navigate('/footericon')}> Footer col 2</Button>
+                    <Button style={{ marginLeft: `10px` }} type="default" onClick={() => navigate('/footerlabel')}> Pie col 1</Button>
+                    <Button style={{ marginLeft: `10px` }} type="default" onClick={() => navigate('/footericon')}> Pie col 2</Button>
                 </div>
                 <TableModel mergedColumns={mergedColumns} data={data} form={form} keyExtraido={'idfooter_header'} varx={700} />
             </Container>

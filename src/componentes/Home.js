@@ -4,8 +4,8 @@ import Destacados from "./Destacados";
 import { Space, Spin } from 'antd';
 
 const Home = ({ welcome, theme, destacados, destacadoHeader,prodDestacados,prodDestacadosHeader }) => {
-  console.log(prodDestacados)
-  console.log(prodDestacadosHeader)
+  //console.log(prodDestacados)
+  //console.log(prodDestacadosHeader)
   return (
     <div>
       {welcome.length !== 0 ? <>

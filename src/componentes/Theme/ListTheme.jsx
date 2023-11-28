@@ -36,7 +36,7 @@ const ListTheme = ({ token }) => {
 
     const handleUpdate = async (newData) => {
         await updateTheme({ token: token, param: newData.idtheme, json: newData }).then((res) => {
-            console.log(res)
+            //console.log(res)
             if (res?.mensaje === 'error') {
                 message.error(res?.detmensaje)
             } else {
@@ -92,14 +92,18 @@ const ListTheme = ({ token }) => {
             ...BuscadorTabla('content_background_color'),
         },
         {
-            title: 'Fondo de pie de pagina',
-            dataIndex: 'footer_background_color',
+            title: 'Fondo de pie de pagina 1',
+            dataIndex: 'footer_background_color1',
             //width: '22%',
             editable: true,
             color:true,
-            sortDirections: ['descend', 'ascend'],
-            sorter: (a, b) => a.footer_background_color.localeCompare(b.footer_background_color),
-            ...BuscadorTabla('footer_background_color'),
+        },
+        {
+            title: 'Fondo de pie de pagina 2',
+            dataIndex: 'footer_background_color2',
+            //width: '22%',
+            editable: true,
+            color:true,
         },
         {
             title: 'Color de titulo de pie',
@@ -171,13 +175,7 @@ const ListTheme = ({ token }) => {
             sorter: (a, b) => a.button_text_color.localeCompare(b.button_text_color),
             ...BuscadorTabla('button_text_color'),
         },
-        {
-            title: 'Vinculo Logo',
-            dataIndex: 'html_logo',
-            //width: '22%',
-            color:false,
-            editable: true,
-        },
+        
         {
             title: 'Estado',
             dataIndex: 'state',
@@ -285,7 +283,8 @@ const ListTheme = ({ token }) => {
                 newData[index].header_color2=hexString(newData[index].header_color2);
                 newData[index].header_title_color=hexString(newData[index].header_title_color);
                 newData[index].content_background_color=hexString(newData[index].content_background_color);
-                newData[index].footer_background_color=hexString(newData[index].footer_background_color);
+                newData[index].footer_background_color1=hexString(newData[index].footer_background_color1);
+                newData[index].footer_background_color2=hexString(newData[index].footer_background_color2);
                 newData[index].footer_title_color=hexString(newData[index].footer_title_color);
                 newData[index].footer_icon_color=hexString(newData[index].footer_icon_color);
                 newData[index].content_title_color=hexString(newData[index].content_title_color);

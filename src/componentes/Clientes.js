@@ -1,7 +1,20 @@
 import { Container } from "react-bootstrap";
 import Card from 'react-bootstrap/Card';
+import { Buffer } from 'buffer';
 
 const Clientes = ({ theme, client, clientHeader }) => {
+  
+  const viewImage = (html_image) => {
+    if (html_image && typeof html_image !== "string") {
+      //console.log(html_image);
+      const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
+      if (asciiTraducido) {
+        return (
+          <Card.Img variant="top" src={asciiTraducido} />
+        );
+      }
+    }
+  }
   return (
     <div style={{ backgroundColor: `${theme?.content_backgroud_color}`, minHeight: `30rem` }}>
       <hr style={{ width: "5%", height: "5px", backgroundColor: "#000339", margin: "0 auto", }} />
@@ -19,7 +32,7 @@ const Clientes = ({ theme, client, clientHeader }) => {
             client.map((data,index) => (
               <Card style={{ width: '18rem',margin:`5px` , border: `0px` }} className="shadow" key={index+1}>
                 <div style={{ margin: `10px` }}>
-                  <Card.Img variant="top" src={data?.html_image} />
+                  {viewImage(data?.html_image)}
                 </div>
                 <Card.Body>
                   <Card.Title>{data?.title}</Card.Title>

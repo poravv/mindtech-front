@@ -3,12 +3,12 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Outlet, Link, } from 'react-router-dom';
 import Footer from '../componentes/Footer';
-
 import { Logout } from '../services/login';
 import { Dropdown } from 'react-bootstrap';
 import { Space, Spin } from 'antd';
+import { Buffer } from 'buffer';
 
-function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, footerIcon, services, products }) {
+function NavBar({ logo, client, nosotros, usuario, theme, footerHeader, footerLabel, footerIcon, services, products }) {
     //const location = useLocation()
     const styleLabel = { color: `${theme?.header_title_color !== "" ? theme?.header_title_color : 'black'}`, background: `none`, border: `none` }
     const styleNavbar = (
@@ -24,6 +24,25 @@ function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, f
             }
 
     )
+
+    const viewImage = (html_image) => {
+        if (html_image && typeof html_image !== "string") {
+            //console.log(html_image);
+            const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
+            if (asciiTraducido) {
+                return (
+                    <img
+                        alt="imagen"
+                        //preview={false}
+                        style={{ maxWidth: `8rem`, borderRadius: `4px` }}
+                        //style={{ height:`170px`, borderRadius: `10px` }}
+                        src={asciiTraducido}
+                    />
+                );
+            }
+        }
+    }
+
     return (
         <div>
             {nosotros.length === 0 ?
@@ -41,13 +60,7 @@ function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, f
                         <Container >
                             <Navbar.Brand as={Link} to='/' >
                                 {/*<img style={{ maxWidth: `8rem` }} src={require('../assets/logo.png')} alt='' />*/}
-                                {(theme?.html_logo === '' || theme?.html_logo === null) ?
-                                    null
-                                    : <img
-                                        src={theme?.html_logo}
-                                        style={{ maxWidth: `8rem`, borderRadius: `4px` }}
-                                        alt="..."
-                                    />}
+                                {viewImage(logo?.html_image)}
 
                             </Navbar.Brand>
                             <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -64,14 +77,15 @@ function NavBar({ client, nosotros, usuario, theme, footerHeader, footerLabel, f
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu>
                                             <Dropdown.Item as={Link} to='/welcome' >Bienvenida</Dropdown.Item>
-                                            <Dropdown.Item as={Link} to='/clienteheader' >Cliente Header</Dropdown.Item>
-                                            <Dropdown.Item as={Link} to='/productheader' >Product Header</Dropdown.Item>
-                                            <Dropdown.Item as={Link} to='/serviceheader' >Service Header</Dropdown.Item>
-                                            <Dropdown.Item as={Link} to='/footerheader' >Footer Header</Dropdown.Item>
-                                            <Dropdown.Item as={Link} to='/destacadoheader' >Destacados Header</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to='/logos'>Logos</Dropdown.Item>
                                             <Dropdown.Item as={Link} to='/about'>Nosotros</Dropdown.Item>
-                                            <Dropdown.Item as={Link} to='/tema'>Tema</Dropdown.Item>
-                                            <Dropdown.Item as={Link} to='/icono'>Icono</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to='/tema'>Temas</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to='/clienteheader' >Gestión Clientes</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to='/productheader' >Gestión Productos</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to='/serviceheader' >Gestión Servicios</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to='/footerheader' >Gestión Pie de pagina</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to='/destacadoheader' >Destacados Header</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to='/icono'>Iconos</Dropdown.Item>
                                             <Dropdown.Divider />
                                             <Dropdown.Item as={Link} onClick={(e) => Logout()}>Cerrar sesión</Dropdown.Item>
                                         </Dropdown.Menu>

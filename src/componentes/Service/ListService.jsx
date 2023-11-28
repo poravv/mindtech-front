@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react'
-import { Popconfirm, Typography, Form, Tag, message, Button } from 'antd';
+import { Popconfirm, Typography, Form, Tag, message, Button, Image } from 'antd';
 import TableModel from '../Utils/TableModel/TableModel';
 import { useNavigate } from "react-router-dom";
 import { getAllService, updateService } from '../../services/service';
 import { Titulos } from '../Utils/Titulos';
 import { BuscadorTabla } from '../Utils/Buscador/BuscadorTabla'
 import { Container } from 'react-bootstrap';
+import { Buffer } from 'buffer';
 
 const ListService = ({ token }) => {
     const [form] = Form.useForm();
     const [data, setData] = useState([]);
     const [editingKey, setEditingKey] = useState('');
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         getLstService();
         // eslint-disable-next-line
@@ -20,12 +21,9 @@ const ListService = ({ token }) => {
 
 
     const getLstService = async () => {
-        try {
             const res = await getAllService({ token: token, param: 'get' });
+            //console.log(res.body)
             setData(res.body);
-        } catch (e) {
-            console.log(e);
-        }
     }
 
     const handleDelete = async (id) => {
@@ -35,14 +33,14 @@ const ListService = ({ token }) => {
 
     const handleUpdate = async (newData) => {
         await updateService({ token: token, param: newData.idservice, json: newData }).then((res) => {
-            console.log(res)
+            //console.log(res)
             if (res?.mensaje === 'error') {
                 message.error(res?.detmensaje)
             } else {
                 getLstService();
                 message.success(res?.detmensaje).then(() => {
                     // eslint-disable-next-line
-                    ;window.location.href = window.location.href;;
+                    ; window.location.href = window.location.href;;
                 })
             }
         })
@@ -82,18 +80,25 @@ const ListService = ({ token }) => {
             dataIndex: 'html_image',
             //width: '22%',
             editable: true,
-            sortDirections: ['descend', 'ascend'],
-            sorter: (a, b) => a.html_image.localeCompare(b.html_image),
-            ...BuscadorTabla('html_image'),
-        },
-        {
-            title: 'Muestra',
-            dataIndex: 'html_image',
-            //width: '22%',
-            editable: false,
-            render: (_,{html_image}) => {
-                return <img style={{ maxWidth:`150px` }} alt='...' src={`${html_image}`}/>;
-            }
+            render: (_, { html_image }) => {
+                if (html_image && typeof html_image !== "string") {
+                    //console.log(html_image);
+                    const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
+                    //const asciiTraducido = Buffer.from(html_image.data).toString();
+                    //console.log(asciiTraducido);
+                    if (asciiTraducido) {
+                        return (
+                            <Image
+                                style={{ borderRadius: `4px`, width: `60px` }}
+                                alt="imagen"
+                                //preview={false}
+                                //style={{ width: '50%',margin:`0px`,textAlign:`center` }}
+                                src={asciiTraducido}
+                            />
+                        );
+                    }
+                }
+            },
         },
         {
             title: 'Vínculo',
@@ -138,7 +143,7 @@ const ListService = ({ token }) => {
                 return editable ? (
                     <span>
                         <Typography.Link
-                            onClick={() => save(record.idservice)}
+                            onClick={() => save(record.idservice,record.html_image)}
                             style={{
                                 marginRight: 8,
                             }} >
@@ -192,7 +197,7 @@ const ListService = ({ token }) => {
         handleDelete(idservice);
     };
 
-    const save = async (idservice) => {
+    const save = async (idservice,html_image) => {
 
         try {
             const row = await form.validateFields();
@@ -205,6 +210,12 @@ const ListService = ({ token }) => {
                     ...item,
                     ...row,
                 });
+                
+                if (idservice === item.idservice) {
+                    //console.log('Entra en asignacion',record.img);
+                    newData[index].html_image = html_image;
+                }
+
                 handleUpdate(newData[index]);
                 setData(newData);
                 setEditingKey('');

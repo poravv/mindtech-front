@@ -1,11 +1,14 @@
 import { Form, Input, InputNumber, Table, Select, Spin, ColorPicker } from 'antd';
 import { getIcon } from '../../../services/icon';
 import { useEffect, useState } from 'react';
+import UploadFile from '../Upload';
+import { Buffer } from 'buffer';
 
 const { Option } = Select;
 function TableModel({ token, form, data, mergedColumns, keyExtraido, varx }) {
   const [icons, setIcons] = useState([]);
   const [formatHex, setFormatHex] = useState('hex');
+  const [previewImage, setPreviewImage] = useState('');
 
   useEffect(() => {
     getLstIcon();
@@ -53,7 +56,24 @@ function TableModel({ token, form, data, mergedColumns, keyExtraido, varx }) {
               ) : (children)
             }
           </td>);
-
+      case 'html_image':
+        return (
+          <td {...restProps}>
+            {
+              editing ?
+                <Form.Item name={dataIndex} style={{ margin: 0, }}  >
+                  <UploadFile previewImage={previewImage} setPreviewImage={setPreviewImage} >
+                    { //Aqui la logica de si actualiza o no las imagenes del formulario
+                      (previewImage !== '' && previewImage != null) ?
+                        record.html_image = previewImage :
+                        record.html_image ?
+                          record.html_image = Buffer.from(record.html_image).toString('ascii') :
+                          null}
+                  </UploadFile>
+                </Form.Item>
+                : (children)
+            }
+          </td>);
       case 'destacado':
         return (
           <td {...restProps}>

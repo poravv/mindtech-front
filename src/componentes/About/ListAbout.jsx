@@ -237,7 +237,6 @@ const ListAbout = ({ token }) => {
                 </div>
                 <TableModel mergedColumns={mergedColumns} data={data} form={form} keyExtraido={'idabout'} varx={1500} />
             </Container>
-
         </div>
     )
 }

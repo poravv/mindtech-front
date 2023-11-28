@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Popconfirm, Typography, Form, Tag, message, Button } from 'antd';
+import { Popconfirm, Typography, Form, Tag, message, Button, Image } from 'antd';
 import TableModel from '../Utils/TableModel/TableModel';
 import { useNavigate } from "react-router-dom";
 import { getAllClient, updateClient } from '../../services/client';
 import { Titulos } from '../Utils/Titulos';
 import { BuscadorTabla } from '../Utils/Buscador/BuscadorTabla'
 import { Container } from 'react-bootstrap';
+import { Buffer } from 'buffer';
 
 const ListClient = ({ token }) => {
     const [form] = Form.useForm();
@@ -82,19 +83,22 @@ const ListClient = ({ token }) => {
             dataIndex: 'html_image',
             //width: '22%',
             editable: true,
-            sortDirections: ['descend', 'ascend'],
-            sorter: (a, b) => a.html_image.localeCompare(b.html_image),
-            ...BuscadorTabla('html_image'),
-        },
-        {
-            title: 'Muestra',
-            dataIndex: 'html_image',
-            //width: '22%',
-            editable: false,
-            render: (_,{html_image}) => {
-                return <img style={{ maxWidth:`150px` }} alt='...' src={`${html_image}`}/>;
-            }
-        },
+            render: (_, { html_image }) => {
+                if (html_image && typeof html_image !== "string") {
+                    const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
+                    //console.log(asciiTraducido);
+                    if (asciiTraducido) {
+                        return (
+                            <Image
+                                style={{ borderRadius: `4px`, width: `60px` }}
+                                alt="imagen"
+                                src={asciiTraducido}
+                            />
+                        );
+                    }
+                }
+            },        },
+       
         {
             title: 'Estado',
             dataIndex: 'state',
@@ -120,7 +124,7 @@ const ListClient = ({ token }) => {
                 return editable ? (
                     <span>
                         <Typography.Link
-                            onClick={() => save(record.idclient)}
+                            onClick={() => save(record.idclient,record.html_image)}
                             style={{
                                 marginRight: 8,
                             }} >
@@ -174,7 +178,7 @@ const ListClient = ({ token }) => {
         handleDelete(idclient);
     };
 
-    const save = async (idclient) => {
+    const save = async (idclient,html_image) => {
 
         try {
             const row = await form.validateFields();
@@ -187,6 +191,11 @@ const ListClient = ({ token }) => {
                     ...item,
                     ...row,
                 });
+                if (idclient === item.idclient) {
+                    //console.log('Entra en asignacion',record.img);
+                    newData[index].html_image = html_image;
+                }
+
                 handleUpdate(newData[index]);
                 setData(newData);
                 setEditingKey('');

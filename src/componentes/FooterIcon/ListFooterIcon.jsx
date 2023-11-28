@@ -200,7 +200,7 @@ const ListFooterIcon = ({ token }) => {
     return (
         <div style={{ display: `flex` }}>
             <Container>
-                <Titulos text={`FOOTER COL 2`} level={3}></Titulos>
+                <Titulos text={`ICONO PIE DE PÁGINA`} level={3}></Titulos>
                 <div style={{ marginBottom: `5px`, textAlign: `end` }}>
                     <Button type="default" onClick={() => navigate('/nuevofootericon')} > Nuevo</Button>
                 </div>

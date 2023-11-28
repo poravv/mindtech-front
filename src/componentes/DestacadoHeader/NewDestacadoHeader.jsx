@@ -41,7 +41,7 @@ function NewDestacadoHeader({ token }) {
     return (
         <div >
             <div style={{ marginBottom: `20px` }}>
-                <Titulos text={`NUEVO TITULOS DESTACADOS`} level={3}></Titulos>
+                <Titulos text={`NUEVO TITULO DESTACADO`} level={3}></Titulos>
             </div>
             <Form
                 name="basic"

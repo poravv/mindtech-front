@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react'
-import { Popconfirm, Typography, Form, Tag, message, Button } from 'antd';
+import { Popconfirm, Typography, Form, Tag, message, Button, Image } from 'antd';
 import TableModel from '../Utils/TableModel/TableModel';
 import { useNavigate } from "react-router-dom";
 import { getAllWelcome, updateWelcome } from '../../services/welcome';
 import { Titulos } from '../Utils/Titulos';
 import { BuscadorTabla } from '../Utils/Buscador/BuscadorTabla'
 import { Container } from 'react-bootstrap';
+import { Buffer } from 'buffer';
 
 const ListWelcome = ({ token }) => {
     const [form] = Form.useForm();
     const [data, setData] = useState([]);
     const [editingKey, setEditingKey] = useState('');
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         getLstWelcome();
         // eslint-disable-next-line
@@ -42,7 +43,7 @@ const ListWelcome = ({ token }) => {
                 getLstWelcome();
                 message.success(res?.detmensaje).then(() => {
                     // eslint-disable-next-line
-                    ;window.location.href = window.location.href;;
+                    ; window.location.href = window.location.href;;
                 })
             }
         })
@@ -91,18 +92,23 @@ const ListWelcome = ({ token }) => {
             dataIndex: 'html_image',
             //width: '22%',
             editable: true,
-            sortDirections: ['descend', 'ascend'],
-            sorter: (a, b) => a.html_image.localeCompare(b.html_image),
-            ...BuscadorTabla('html_image'),
-        },
-        {
-            title: 'Muestra',
-            dataIndex: 'html_image',
-            //width: '22%',
-            editable: false,
-            render: (_,{html_image}) => {
-                return <img style={{ maxWidth:`150px` }} alt='...' src={`${html_image}`}/>;
-            }
+            render: (_, { html_image }) => {
+                if (html_image && typeof html_image !== "string") {
+                    //console.log(html_image);
+                    const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
+                    //const asciiTraducido = Buffer.from(html_image.data).toString();
+                    //console.log(asciiTraducido);
+                    if (asciiTraducido) {
+                        return (
+                            <Image
+                                style={{ borderRadius: `4px`, width: `60px` }}
+                                alt="imagen"
+                                src={asciiTraducido}
+                            />
+                        );
+                    }
+                }
+            },
         },
         {
             title: 'Vínculo de botón',
@@ -138,7 +144,7 @@ const ListWelcome = ({ token }) => {
                 return editable ? (
                     <span>
                         <Typography.Link
-                            onClick={() => save(record.idwelcome)}
+                            onClick={() => save(record.idwelcome,record.html_image)}
                             style={{
                                 marginRight: 8,
                             }} >
@@ -192,7 +198,7 @@ const ListWelcome = ({ token }) => {
         handleDelete(idwelcome);
     };
 
-    const save = async (idwelcome) => {
+    const save = async (idwelcome,html_image) => {
 
         try {
             const row = await form.validateFields();
@@ -205,6 +211,10 @@ const ListWelcome = ({ token }) => {
                     ...item,
                     ...row,
                 });
+                if (idwelcome === item.idwelcome) {
+                    //console.log('Entra en asignacion',record.img);
+                    newData[index].html_image = html_image;
+                }
                 handleUpdate(newData[index]);
                 setData(newData);
                 setEditingKey('');

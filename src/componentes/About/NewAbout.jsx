@@ -3,9 +3,10 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import React from 'react';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input,message } from 'antd';
 import { createAbout } from '../../services/about';
 import { Titulos } from '../Utils/Titulos';
+import UploadFile from '../Utils/Upload';
 
 function NewAbout({ token }) {
     const [form] = Form.useForm();
@@ -13,17 +14,23 @@ function NewAbout({ token }) {
     const [subtitle, setsubtitle] = useState()
     const [description, setdescription] = useState()
     const [about_background, setabout_background] = useState()
-    const [html_image, sethtml_image] = useState()
+    //const [html_image, sethtml_image] = useState()
+    const [previewImage1, setPreviewImage1] = useState();
     const navigate = useNavigate();
 
     const create = async (e) => {
         //e.preventDefault();
+        if(!previewImage1){
+            message.warning('Favor cargue una imagen')
+            return;
+        }
+
         await createAbout({
             token: token, json: {
                 title,
                 subtitle,
                 description,
-                html_image,
+                html_image:previewImage1,
                 about_background,
                 state: "AC"
         } });
@@ -55,7 +62,9 @@ return (
             <Form.Item label='Subítulo' name="subtitle" rules={[{ required: true, message: 'Cargue Subítulo', },]}><Input placeholder='Subítulo' value={subtitle} onChange={(e) => setsubtitle(e.target.value)} /></Form.Item>
             <Form.Item label='Descripción' name="description" rules={[{ required: true, message: 'Cargue Descripción', },]}><Input placeholder='Descripción' value={description} onChange={(e) => setdescription(e.target.value)} /></Form.Item>
             <Form.Item label='Color de sección' name="about_background" rules={[{ required: true, message: 'Cargue color de sección', },]}><Input placeholder='Color de fondo de sección' value={about_background} onChange={(e) => setabout_background(e.target.value)} /></Form.Item>
-            <Form.Item label='html image' name="html_image" ><Input placeholder='html image' value={html_image} onChange={(e) => sethtml_image(e.target.value)} /></Form.Item>
+            <Form.Item name="imagen" id='imagen' style={{ margin: `10px` }}  >
+                    <UploadFile previewImage={previewImage1} setPreviewImage={setPreviewImage1} />
+                </Form.Item>
             <Form.Item
                 style={{ margin: `20px` }}>
                 <Button type="primary" htmlType="submit" style={{ margin: `20px` }} >

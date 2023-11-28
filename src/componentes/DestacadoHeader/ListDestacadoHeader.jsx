@@ -201,7 +201,7 @@ const ListDestacadoHeader = ({ token }) => {
     return (
         <div style={{ display: `flex` }}>
             <Container>
-                <Titulos text={`TITULO DESTACADOS`} level={3}></Titulos>
+                <Titulos text={`TÍTULOS DESTACADOS`} level={3}></Titulos>
                 <div style={{ marginBottom: `5px`, textAlign: `end` }}>
                     <Button type="default" onClick={() => navigate('/nuevodestacadoheader')} > Nuevo</Button>
                 </div>

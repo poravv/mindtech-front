@@ -196,10 +196,10 @@ const ListProductHeader = ({ token }) => {
     return (
         <div style={{ display: `flex` }}>
             <Container>
-                <Titulos text={`PRODUCT HEADER`} level={3}></Titulos>
+                <Titulos text={`TÍTULOS PRODUCTO`} level={3}></Titulos>
                 <div style={{ marginBottom: `5px`, textAlign: `end` }}>
                     <Button type="default" onClick={() => navigate('/nuevoproductheader')} > Nuevo</Button>
-                    <Button style={{ marginLeft: `10px` }} type="default" onClick={() => navigate('/product')}>List Products</Button>
+                    <Button style={{ marginLeft: `10px` }} type="default" onClick={() => navigate('/product')}>Lista de Productos</Button>
                 </div>
                 <TableModel mergedColumns={mergedColumns} data={data} form={form} keyExtraido={'idproduct_header'} varx={700} />
             </Container>

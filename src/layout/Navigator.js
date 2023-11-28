@@ -16,6 +16,7 @@ import { getService } from '../services/service';
 import { getFooterHeaderOne } from '../services/footer_header';
 import { getFooterLabel } from '../services/footer_label';
 import { getFooterIcon } from '../services/footer_icon';
+import { getLogoOne } from '../services/logo';
 import { getDestacadoHeaderServ,getDestacadoHeaderProd } from '../services/destacado_header';
 import './Style.css';
 import LoginForm from './LoginForm';
@@ -50,6 +51,8 @@ import ListProductHeader from '../componentes/ProductHeader/ListProductHeader';
 import { getProduct } from '../services/product';
 import Productos from '../componentes/Productos';
 import { getProductHeaderOne } from '../services/product_header';
+import NewLogo from '../componentes/Logo/NewLogo';
+import ListLogo from '../componentes/Logo/ListLogo';
 
 function Navigator() {
     const loggedUser = window.localStorage.getItem('loginAppMindTech');
@@ -69,10 +72,12 @@ function Navigator() {
     const [footerLabel, setFooterLabel] = useState([]);
     const [footerIcon, setFooterIcon] = useState([]);
     const [destacadoHeader, setDestacadoHeader] = useState([]);
+    const [logo, setLogo] = useState([]);
     const [prodDestacadosHeader, setProductsDestacadosHeader] = useState([]);
 
     useEffect(() => {
         getWelcomeOne().then((data) => { setWelcome(data?.body) });
+        getLogoOne().then((data) => { setLogo(data?.body) });
         getAbout().then((data) => { setNosotros(data?.body) });
         getThemeOne().then((data) => { setTheme(data?.body) });
         getClient().then((data) => { setClient(data?.body) });
@@ -98,7 +103,7 @@ function Navigator() {
             });
             setProducts(producto);
             setProductsDestacados(destacados);
-            console.log(destacados)
+            //console.log(destacados)
         });
         getServiceHeaderOne().then((data) => { setServiceHeader(data?.body) });
         getProductHeaderOne().then((data) => { setProductHeader(data?.body) });
@@ -112,7 +117,7 @@ function Navigator() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<NavBar products={products} nosotros={nosotros} client={client} services={services} usuario={userJson?.body??null} theme={theme} footerHeader={footerHeader} footerLabel={footerLabel} footerIcon={footerIcon} />} >
+                <Route path='/' element={<NavBar logo={logo} products={products} nosotros={nosotros} client={client} services={services} usuario={userJson?.body??null} theme={theme} footerHeader={footerHeader} footerLabel={footerLabel} footerIcon={footerIcon} />} >
                     <Route index element={<Home welcome={welcome} theme={theme} prodDestacadosHeader={prodDestacadosHeader} prodDestacados={prodDestacados} destacados={destacados} destacadoHeader={destacadoHeader}/>} />
                     <Route path='/inicio' element={<Home welcome={welcome} theme={theme} prodDestacadosHeader={prodDestacadosHeader} prodDestacados={prodDestacados}  destacados={destacados} destacadoHeader={destacadoHeader} />} />
                     <Route path='/nosotros' element={<Nosotros nosotros={nosotros} theme={theme} />} />
@@ -148,6 +153,9 @@ function Navigator() {
                     <Route path='/nuevoproduct' element={<NewProduct token={userJson?.token} />} />
                     <Route path='/productheader' element={<ListProductHeader token={userJson?.token} />} />
                     <Route path='/nuevoproductheader' element={<NewProductHeader token={userJson?.token} />} />
+
+                    <Route path='/logos' element={<ListLogo token={userJson?.token} />} />
+                    <Route path='/nuevologo' element={<NewLogo token={userJson?.token} />} />
                 </Route>
                 <Route path='/login' element={<LoginForm />} />
                 <Route path='*' element={<Error replace to='/error' />} />
