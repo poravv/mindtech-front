@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Popconfirm, Typography, Form, Tag, message, Button } from 'antd';
+import { Popconfirm, Typography, Form, Tag, message, Button, Image } from 'antd';
 import TableModel from '../Utils/TableModel/TableModel';
 import { useNavigate } from "react-router-dom";
 import { getAllAbout, updateAbout } from '../../services/about';
 import { Titulos } from '../Utils/Titulos';
 import { BuscadorTabla } from '../Utils/Buscador/BuscadorTabla'
 import { Container } from 'react-bootstrap';
+import { Buffer } from 'buffer';
 
 const ListAbout = ({ token }) => {
     const [form] = Form.useForm();
@@ -91,18 +92,25 @@ const ListAbout = ({ token }) => {
             dataIndex: 'html_image',
             //width: '22%',
             editable: true,
-            sortDirections: ['descend', 'ascend'],
-            sorter: (a, b) => a.html_image.localeCompare(b.html_image),
-            ...BuscadorTabla('html_image'),
-        },
-        {
-            title: 'Muestra',
-            dataIndex: 'html_image',
-            //width: '22%',
-            editable: false,
-            render: (_,{html_image}) => {
-                return <img style={{ maxWidth:`150px` }} alt='...' src={`${html_image}`}/>;
-            }
+            render: (_, { html_image }) => {
+                if (html_image && typeof html_image !== "string") {
+                    //console.log(html_image);
+                    const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
+                    //const asciiTraducido = Buffer.from(html_image.data).toString();
+                    //console.log(asciiTraducido);
+                    if (asciiTraducido) {
+                        return (
+                            <Image
+                                style={{ borderRadius: `4px`, width: `70px` }}
+                                alt="imagen"
+                                //preview={false}
+                                //style={{ width: '50%',margin:`0px`,textAlign:`center` }}
+                                src={asciiTraducido}
+                            />
+                        );
+                    }
+                }
+            },
         },
         {
             title: 'Estado',
@@ -235,7 +243,7 @@ const ListAbout = ({ token }) => {
                 <div style={{ marginBottom: `5px`, textAlign: `end` }}>
                     <Button type="default" onClick={() => navigate('/nuevoabout')} > Nuevo</Button>
                 </div>
-                <TableModel mergedColumns={mergedColumns} data={data} form={form} keyExtraido={'idabout'} varx={1500} />
+                <TableModel mergedColumns={mergedColumns} data={data} form={form} keyExtraido={'idabout'} varx={1000} />
             </Container>
         </div>
     )
