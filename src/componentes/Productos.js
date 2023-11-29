@@ -1,6 +1,7 @@
 
 import { Container } from "react-bootstrap";
 import { Buffer } from 'buffer';
+import { separadorMiles } from "./Utils/Separador";
 
 const Productos = ({ products, theme, productHeader }) => {
   const viewImage = (html_image) => {
@@ -42,8 +43,9 @@ const Productos = ({ products, theme, productHeader }) => {
                   <h1 style={{ fontSize: "1em", color: `${theme?.content_title_color}` }}>
                     {data?.title}
                   </h1>
-                  <h1 style={{ fontWeight: "bold", fontSize: "14px", color: `${theme?.content_subtitle_color}` }}> Más detalles
-                  </h1>
+                  <h3 style={{ fontSize: "12px", color: `${theme?.content_subtitle_color}` }}>{data?.description}</h3>
+                  <h3 style={{ fontSize: "14px", color: `black` }}>Gs {separadorMiles(data?.precio)}</h3>
+                  <h1 style={{ fontWeight: "bold", fontSize: "14px", color: `${theme?.content_subtitle_color}` }}> Más detalles</h1>
                 </a>
               </div>
             ))}

@@ -264,7 +264,6 @@ const ListProduct = ({ token }) => {
                 </div>
                 <TableModel mergedColumns={mergedColumns} data={data} form={form} keyExtraido={'idproduct'} varx={1500} />
             </Container>
-
         </div>
     )
 }
