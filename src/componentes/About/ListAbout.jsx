@@ -47,7 +47,14 @@ const ListAbout = ({ token }) => {
                 })
             }
         })
+    }
 
+    const hexString = (color) => {
+        if(typeof color === 'string'){
+            return color
+        }else{
+            return color.toHexString()
+        }
     }
 
     const columns = [
@@ -83,6 +90,7 @@ const ListAbout = ({ token }) => {
             dataIndex: 'about_background',
             //width: '22%',
             editable: true,
+            color:true,
             sortDirections: ['descend', 'ascend'],
             sorter: (a, b) => a.description.localeCompare(b.description),
             ...BuscadorTabla('description'),
@@ -94,17 +102,12 @@ const ListAbout = ({ token }) => {
             editable: true,
             render: (_, { html_image }) => {
                 if (html_image && typeof html_image !== "string") {
-                    //console.log(html_image);
                     const asciiTraducido = Buffer.from(html_image?.data).toString('ascii');
-                    //const asciiTraducido = Buffer.from(html_image.data).toString();
-                    //console.log(asciiTraducido);
                     if (asciiTraducido) {
                         return (
                             <Image
                                 style={{ borderRadius: `4px`, width: `70px` }}
                                 alt="imagen"
-                                //preview={false}
-                                //style={{ width: '50%',margin:`0px`,textAlign:`center` }}
                                 src={asciiTraducido}
                             />
                         );
@@ -137,7 +140,7 @@ const ListAbout = ({ token }) => {
                 return editable ? (
                     <span>
                         <Typography.Link
-                            onClick={() => save(record.idabout)}
+                            onClick={() => save(record.idabout,record.html_image)}
                             style={{
                                 marginRight: 8,
                             }} >
@@ -172,6 +175,7 @@ const ListAbout = ({ token }) => {
     ]
 
     const edit = (record) => {
+        delete record.html_image;
         form.setFieldsValue({
             ...record,
         });
@@ -191,7 +195,7 @@ const ListAbout = ({ token }) => {
         handleDelete(idabout);
     };
 
-    const save = async (idabout) => {
+    const save = async (idabout,html_image) => {
 
         try {
             const row = await form.validateFields();
@@ -204,6 +208,11 @@ const ListAbout = ({ token }) => {
                     ...item,
                     ...row,
                 });
+                if (idabout === item.idabout) {
+                    //console.log('Entra en asignacion',record.img);
+                    newData[index].html_image = html_image;
+                    newData[index].about_background=hexString(newData[index].about_background);
+                }
                 handleUpdate(newData[index]);
                 setData(newData);
                 setEditingKey('');
@@ -224,6 +233,18 @@ const ListAbout = ({ token }) => {
         if (!col.editable) {
             return col;
         }
+        if(col.color){
+            return {
+                ...col,
+                onCell: (record) => ({
+                    record,
+                    inputType: 'ColorPicker',
+                    dataIndex: col.dataIndex,
+                    title: col.title,
+                    editing: isEditing(record),
+                }),
+            };
+        }
         return {
             ...col,
             onCell: (record) => ({
@@ -234,6 +255,7 @@ const ListAbout = ({ token }) => {
                 editing: isEditing(record),
             }),
         };
+        
     });
 
     return (

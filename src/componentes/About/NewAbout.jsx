@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import React from 'react';
-import { Button, Form, Input,message } from 'antd';
+import { Button, ColorPicker, Form, Input } from 'antd';
 import { createAbout } from '../../services/about';
 import { Titulos } from '../Utils/Titulos';
 import UploadFile from '../Utils/Upload';
+const { TextArea } = Input;
 
 function NewAbout({ token }) {
     const [form] = Form.useForm();
@@ -17,21 +18,31 @@ function NewAbout({ token }) {
     //const [html_image, sethtml_image] = useState()
     const [previewImage1, setPreviewImage1] = useState();
     const navigate = useNavigate();
+    const [formatHex, setFormatHex] = useState('hex');
+
+    const hexString = (color) => {
+        if(typeof color === 'string'){
+            return color
+        }else{
+            return color.toHexString()
+        }
+    }
 
     const create = async (e) => {
         //e.preventDefault();
+       /*
         if(!previewImage1){
             message.warning('Favor cargue una imagen')
             return;
-        }
+        }*/
 
         await createAbout({
             token: token, json: {
                 title,
                 subtitle,
                 description,
-                html_image:previewImage1,
-                about_background,
+                html_image:previewImage1??'',
+                about_background:hexString(about_background),
                 state: "AC"
         } });
     navigate('/about');
@@ -60,8 +71,9 @@ return (
         >
             <Form.Item label='Título' name="title" rules={[{ required: true, message: 'Cargue Título', },]}><Input placeholder='Título' value={title} onChange={(e) => settitle(e.target.value)} /></Form.Item>
             <Form.Item label='Subítulo' name="subtitle" rules={[{ required: true, message: 'Cargue Subítulo', },]}><Input placeholder='Subítulo' value={subtitle} onChange={(e) => setsubtitle(e.target.value)} /></Form.Item>
-            <Form.Item label='Descripción' name="description" rules={[{ required: true, message: 'Cargue Descripción', },]}><Input placeholder='Descripción' value={description} onChange={(e) => setdescription(e.target.value)} /></Form.Item>
-            <Form.Item label='Color de sección' name="about_background" rules={[{ required: true, message: 'Cargue color de sección', },]}><Input placeholder='Color de fondo de sección' value={about_background} onChange={(e) => setabout_background(e.target.value)} /></Form.Item>
+            <Form.Item label='Descripción' name="description" rules={[{ required: true, message: 'Cargue Descripción', },]}><TextArea placeholder='Descripción' value={description} onChange={(e) => setdescription(e.target.value)} /></Form.Item>
+            <Form.Item label='Color de sección' name="about_background" rules={[{ required: true, message: 'Cargue color de sección', },]}><ColorPicker value={about_background} onChange={setabout_background} showText format={formatHex} onFormatChange={setFormatHex} /></Form.Item>
+            
             <Form.Item name="imagen" id='imagen' style={{ margin: `10px` }}  >
                     <UploadFile previewImage={previewImage1} setPreviewImage={setPreviewImage1} />
                 </Form.Item>

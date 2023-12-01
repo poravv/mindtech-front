@@ -179,6 +179,7 @@ const ListWelcome = ({ token }) => {
     ]
 
     const edit = (record) => {
+        delete record.html_image;
         form.setFieldsValue({
             ...record,
         });
